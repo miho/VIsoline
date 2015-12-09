@@ -1,0 +1,96 @@
+/**
+ * Data.g4j
+ *
+ * Copyright 2014-2015 Michael Hoffer <info@michaelhoffer.de>. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice, this list of
+ *       conditions and the following disclaimer.
+ *
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *       of conditions and the following disclaimer in the documentation and/or other materials
+ *       provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY Michael Hoffer <info@michaelhoffer.de> "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Michael Hoffer <info@michaelhoffer.de> OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Michael Hoffer <info@michaelhoffer.de>.
+ */ 
+
+public class Data<<T>> {
+    private T[] data;
+    private int width;
+    private int height;
+
+    private static Data<<float>> fData;
+     private static Data<<float>> dData;
+
+    public Data<<T>>() {
+       //
+    }
+
+    public Data<<T>>(int width, int height) {
+       setData(new T[width*height],width,height);
+    }
+
+    public Data<<T>>(T[] data, int width, int height) {
+       setData(data,width,height);
+    }
+    
+    public final void setData(T[] data, int width, int height) {
+        this.data = data;
+        if (data.length != width*height) {
+            throw new IllegalArgumentException("Data argument, width and height do not match. Data.length!=width*height.");
+        }
+        this.width = width;
+        this.height = height;
+    }
+    
+    public T[] getData() {
+        return this.data;
+    }
+    
+    public int getWidth() {return width;}
+    public int getHeight(){return height;}
+
+    public T get(int x, int y) {
+        return data[y*width+x];
+    }
+
+    public void set(T value, int x, int y) {
+        data[y*width+x] = value;
+    }
+
+    public void plus(T value, int x, int y) {
+        data[y*width+x] += value;
+    }
+
+    public void minus(T value, int x, int y) {
+        data[y*width+x] -= value;
+    }
+
+    public void times(T value, int x, int y) {
+        data[y*width+x] *= value;
+    }
+
+    public void divide(T value, int x, int y) {
+        data[y*width+x] /= value;
+    }
+
+    public boolean isEmpty() {
+        return data.length==0;
+    }
+
+
+}
