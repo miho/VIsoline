@@ -1,5 +1,7 @@
 # VIsoline
-Marching Squares Based Isoline/Contour Visualization
+[ ![Download](https://api.bintray.com/packages/miho/VIsoline/VIsoline/images/download.svg) ](https://bintray.com/miho/VIsoline/VIsoline/_latestVersion)
+
+Marching Squares Based Isoline/Contour library
 
 ![](/resources/img/screenshot-01.png)
 
