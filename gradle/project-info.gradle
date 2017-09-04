@@ -1,0 +1,25 @@
+// -----------------------------------------------------------------------------
+// publishing information
+// -----------------------------------------------------------------------------
+ext.publishing.artifactId =  project.name.toLowerCase()
+ext.publishing.groupId    =  'eu.mihosoft.visoline'
+ext.publishing.versionId  =  '0.1.0'
+
+ext.publishing.developerName         = 'Michael Hoffer'
+ext.publishing.developerAlias        = 'miho'
+ext.publishing.developerEmail        = 'info@michaelhoffer.de'
+ext.publishing.inceptionYear         = '2017'
+
+ext.publishing.bintray.repo          = 'VIsoline'
+ext.publishing.bintray.userOrg       = 'miho'
+ext.publishing.bintray.name          = project.name
+
+ext.publishing.desc                  = 'Marching Squares Based Isoline/Contour Visualization'
+ext.publishing.license               = 'BSD 2-Clause'
+ext.publishing.licenseUrl            = 'https://github.com/miho/VIsoline/blob/master/LICENSE.txt'
+ext.publishing.labels                = ['marching squares', 'meta balls', 'iso lines', 'contour lines']
+ext.publishing.websiteUrl            = 'https://github.com/miho/VIsoline'
+ext.publishing.issueTrackerUrl       = 'https://github.com/miho/VIsoline/issues'
+ext.publishing.vcsUrl                = 'https://github.com/miho/VIsoline.git'
+
+ext.publishing.pomName               =  ext.publishing.artifactId

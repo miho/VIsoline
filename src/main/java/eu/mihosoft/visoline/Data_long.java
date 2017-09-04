@@ -24,4 +24,31 @@
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Michael Hoffer <info@michaelhoffer.de>.
- */ 
+ */
+package eu.mihosoft.visoline;
+
+public class Data_long {
+    private long[] data;
+    private int width;
+    private int height;
+
+    public Data_long() {
+           }
+
+    public Data_long(long[] data, int width, int height) {
+       setData(data,width,height);
+    }
+    
+    public final void setData(long[] data, int width, int height) {
+        this.data = data;
+        this.width = width;
+        this.height = height;
+    }
+    
+    public long[] getData() {
+        return this.data;
+    }
+    
+    public int getWidth() {return width;}
+    public int getHeight(){return height;}
+}

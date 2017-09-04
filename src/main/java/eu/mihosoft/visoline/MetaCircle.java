@@ -24,4 +24,35 @@
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Michael Hoffer <info@michaelhoffer.de>.
- */ 
+ */
+package eu.mihosoft.visoline;
+
+import eu.mihosoft.visoline.Vector2f;
+
+
+public class MetaCircle {
+
+    private Vector2f pos = new Vector2f();
+
+    private double strength = 3;
+
+    public Vector2f position() {
+        return pos;
+    }
+
+    public void setStrength(double pStrength) {
+        strength = pStrength;
+    }
+
+    public double getStrength() {
+        return strength;
+    }
+
+    public double getStrengthAt(float x, float y) {
+        float dx;
+        float dy;
+        dx = pos.x - x;
+        dy = pos.y - y;
+        return strength / (dx * dx + dy * dy);
+    }
+}

@@ -24,4 +24,28 @@
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of Michael Hoffer <info@michaelhoffer.de>.
- */ 
+ */
+package eu.mihosoft.visoline;
+
+/**
+ *
+ * @author Michael Hoffer &lt;info@michaelhoffer.de&gt;
+ */
+public class Vector2i extends Vector2_int {
+
+    public Vector2i() {
+    }
+
+    public Vector2i(int x, int y) {
+        super(x, y);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + this.x;
+        hash = 19 * hash + this.y;
+        return hash;
+    }
+
+}
