@@ -181,7 +181,7 @@ public class MarchingSquares_float {
         final float valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
         if (valueB - valueA != 0) {
-                        interpolVal = ((double) (isoVal - valueB)) / (valueA - valueB);
+                        interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
         } else {
             interpolVal = 0.5;
         }
