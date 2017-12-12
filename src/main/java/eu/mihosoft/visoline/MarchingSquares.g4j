@@ -114,6 +114,21 @@ public class MarchingSquares<<T>> {
                 if (val3 < isoVal) {
                     caseIndex |= 8;
                 }
+                // This is the saddle point case.  We should look at the average
+                // to determine which to use.
+                if (caseIndex == 5) {
+                    // do average as a double to avoid rounding errors
+                    double avg = (((double) val0) + val1 + val2 + val3) / 4;
+                    if (avg >= isoVal) {
+                        caseIndex = 16;
+                    }
+                } else if (caseIndex == 10) {
+                    // do average as a double to avoid rounding errors
+                    double avg = (((double) val0) + val1 + val2 + val3) / 4f;
+                    if (avg >= isoVal) {
+                        caseIndex = 17;
+                    }
+                }
 
                 if (caseIndex != 0 || caseIndex != 15) {
                     int n = 0;
@@ -213,7 +228,8 @@ public class MarchingSquares<<T>> {
         final T valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
         if (valueB - valueA != 0) {
-            interpolVal = (isoVal - valueB) / (valueA - valueB);
+            // Cast to double to avoid integer division.
+            interpolVal = ((double) (isoVal - valueB)) / (valueA - valueB);
         } else {
             interpolVal = 0.5;
         }
@@ -252,7 +268,9 @@ public class MarchingSquares<<T>> {
         /*12*/ {1, 3, -1, -1, -1},
         /*13*/ {1, 0, -1, -1, -1},
         /*14*/ {0, 3, -1, -1, -1},
-        /*15*/ {-1, -1, -1, -1, -1}
+        /*15*/ {-1, -1, -1, -1, -1},
+         {3, 0, 1, 2, -1},  // this is 10 with a reverse winding. Used when swapping saddle point on 5
+         {2, 3, 0, 1, -1},  // this is 5 with a reverse winding.  Used when swapping the saddle on 10
     };
 
 }

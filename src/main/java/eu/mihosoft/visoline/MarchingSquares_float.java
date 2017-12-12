@@ -36,31 +36,31 @@ public class MarchingSquares_float {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
+                float val0 = forceField.get(x, y);
+                float val1 = forceField.get(x + 1, y);
+                float val2 = forceField.get(x + 1, y + 1);
+                float val3 = forceField.get(x, y + 1);
 
-                                                if (x < 1) {
-                    forceField.set((float)0, x, y);
-                    forceField.set((float)0, x, y + 1);
+
+                if (x < 1) {
+                    val0 = 0;
+                    val3 = 0;
                 }
 
                 if (y < 1) {
-                    forceField.set((float)0, x, y);
-                    forceField.set((float)0, x + 1, y);
+                    val0 = 0;
+                    val1 = 0;
                 }
 
                 if (x == w - 1) {
-                    forceField.set((float)0, x + 1, y);
-                    forceField.set((float)0, x + 1, y + 1);
+                    val1 = 0;
+                    val2 = 0;
                 }
 
                 if (y == h - 1) {
-                    forceField.set((float)0, x, y + 1);
-                    forceField.set((float)0, x + 1, y + 1);
+                    val3 = 0;
+                    val2 = 0;
                 }
-
-                final float val0 = forceField.get(x, y);
-                final float val1 = forceField.get(x + 1, y);
-                final float val2 = forceField.get(x + 1, y + 1);
-                final float val3 = forceField.get(x, y + 1);
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -74,6 +74,20 @@ public class MarchingSquares_float {
                 }
                 if (val3 < isoVal) {
                     caseIndex |= 8;
+                }
+
+                // This is the saddle point case.  We should look at the average to determine
+                // which to use.
+                if (caseIndex == 5) {
+                    float avg = (val0 + val1 + val2 + val3) / 4f;
+                    if (avg >= isoVal) {
+                        caseIndex = 16;
+                    }
+                } else if (caseIndex == 10) {
+                    float avg = (val0 + val1 + val2 + val3) / 4f;
+                    if (avg >= isoVal) {
+                        caseIndex = 17;
+                    }
                 }
 
                 if (caseIndex != 0 || caseIndex != 15) {
@@ -200,17 +214,19 @@ public class MarchingSquares_float {
          {0, 1, -1, -1, -1},
          {3, 1, -1, -1, -1},
          {1, 2, -1, -1, -1},
-         {3, 2, 1, 0, -1},
+         {3, 2, 1, 0, -1},  // 5
          {0, 2, -1, -1, -1},
          {3, 2, -1, -1, -1},
          {2, 3, -1, -1, -1},
          {2, 0, -1, -1, -1},
-         {0, 3, 2, 1, -1},
+         {0, 3, 2, 1, -1},  // 10
          {2, 1, -1, -1, -1},
          {1, 3, -1, -1, -1},
          {1, 0, -1, -1, -1},
          {0, 3, -1, -1, -1},
-         {-1, -1, -1, -1, -1}
+         {-1, -1, -1, -1, -1},
+         {3, 0, 1, 2, -1},  // this is 10 with a reverse winding. Used when swapping saddle point on 5
+         {2, 3, 0, 1, -1},  // this is 5 with a reverse winding.  Used when swapping the saddle on 10
     };
 
 }
