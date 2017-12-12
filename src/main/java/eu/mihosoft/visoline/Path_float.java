@@ -51,8 +51,7 @@ public class Path_float {
         }
     }
 
-    
-    public float getIsoValue() {
+        public float getIsoValue() {
         return isoValue;
     }
 

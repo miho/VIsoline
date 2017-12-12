@@ -51,8 +51,7 @@ public class Path_byte {
         }
     }
 
-    
-    public byte getIsoValue() {
+        public byte getIsoValue() {
         return isoValue;
     }
 

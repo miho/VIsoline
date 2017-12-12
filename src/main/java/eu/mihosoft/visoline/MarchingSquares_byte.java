@@ -36,31 +36,31 @@ public class MarchingSquares_byte {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
+                byte val0 = forceField.get(x, y);
+                byte val1 = forceField.get(x + 1, y);
+                byte val2 = forceField.get(x + 1, y + 1);
+                byte val3 = forceField.get(x, y + 1);
+
 
                                                 if (x < 1) {
-                    forceField.set((byte)0, x, y);
-                    forceField.set((byte)0, x, y + 1);
+                    val0 = (byte) 0;
+                    val3 = (byte) 0;
                 }
 
                 if (y < 1) {
-                    forceField.set((byte)0, x, y);
-                    forceField.set((byte)0, x + 1, y);
+                    val0 = (byte) 0;
+                    val1 = (byte) 0;
                 }
 
                 if (x == w - 1) {
-                    forceField.set((byte)0, x + 1, y);
-                    forceField.set((byte)0, x + 1, y + 1);
+                    val1 = (byte) 0;
+                    val2 = (byte) 0;
                 }
 
                 if (y == h - 1) {
-                    forceField.set((byte)0, x, y + 1);
-                    forceField.set((byte)0, x + 1, y + 1);
+                    val3 = (byte) 0;
+                    val2 = (byte) 0;
                 }
-
-                final byte val0 = forceField.get(x, y);
-                final byte val1 = forceField.get(x + 1, y);
-                final byte val2 = forceField.get(x + 1, y + 1);
-                final byte val3 = forceField.get(x, y + 1);
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -74,6 +74,18 @@ public class MarchingSquares_byte {
                 }
                 if (val3 < isoVal) {
                     caseIndex |= 8;
+                }
+
+                                                if (caseIndex == 5) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
+                    if (avg >= isoVal) {
+                        caseIndex = 16;
+                    }
+                } else if (caseIndex == 10) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
+                    if (avg >= isoVal) {
+                        caseIndex = 17;
+                    }
                 }
 
                 if (caseIndex != 0 || caseIndex != 15) {
@@ -104,10 +116,8 @@ public class MarchingSquares_byte {
 
                         segments[indexFrom] = indexTo;
 
-                    } 
-                }
-            }         } 
-        for (int i = 0; i < marked.length; i++) {
+                    }                 }
+            }         }         for (int i = 0; i < marked.length; i++) {
             marked[i] = segments[i] == -1;
         }
 
@@ -171,7 +181,7 @@ public class MarchingSquares_byte {
         final byte valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
         if (valueB - valueA != 0) {
-            interpolVal = (isoVal - valueB) / (valueA - valueB);
+                        interpolVal = ((double) (isoVal - valueB)) / (valueA - valueB);
         } else {
             interpolVal = 0.5;
         }
@@ -210,7 +220,7 @@ public class MarchingSquares_byte {
          {1, 3, -1, -1, -1},
          {1, 0, -1, -1, -1},
          {0, 3, -1, -1, -1},
-         {-1, -1, -1, -1, -1}
-    };
+         {-1, -1, -1, -1, -1},
+         {3, 0, 1, 2, -1},           {2, 3, 0, 1, -1},      };
 
 }

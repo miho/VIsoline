@@ -51,8 +51,7 @@ public class Path_int {
         }
     }
 
-    
-    public int getIsoValue() {
+        public int getIsoValue() {
         return isoValue;
     }
 

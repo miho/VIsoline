@@ -42,24 +42,24 @@ public class MarchingSquares_float {
                 float val3 = forceField.get(x, y + 1);
 
 
-                if (x < 1) {
-                    val0 = 0;
-                    val3 = 0;
+                                                if (x < 1) {
+                    val0 = (float) 0;
+                    val3 = (float) 0;
                 }
 
                 if (y < 1) {
-                    val0 = 0;
-                    val1 = 0;
+                    val0 = (float) 0;
+                    val1 = (float) 0;
                 }
 
                 if (x == w - 1) {
-                    val1 = 0;
-                    val2 = 0;
+                    val1 = (float) 0;
+                    val2 = (float) 0;
                 }
 
                 if (y == h - 1) {
-                    val3 = 0;
-                    val2 = 0;
+                    val3 = (float) 0;
+                    val2 = (float) 0;
                 }
 
                 int caseIndex = 0;
@@ -76,15 +76,13 @@ public class MarchingSquares_float {
                     caseIndex |= 8;
                 }
 
-                // This is the saddle point case.  We should look at the average to determine
-                // which to use.
-                if (caseIndex == 5) {
-                    float avg = (val0 + val1 + val2 + val3) / 4f;
+                                                if (caseIndex == 5) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 16;
                     }
                 } else if (caseIndex == 10) {
-                    float avg = (val0 + val1 + val2 + val3) / 4f;
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 17;
                     }
@@ -118,10 +116,8 @@ public class MarchingSquares_float {
 
                         segments[indexFrom] = indexTo;
 
-                    } 
-                }
-            }         } 
-        for (int i = 0; i < marked.length; i++) {
+                    }                 }
+            }         }         for (int i = 0; i < marked.length; i++) {
             marked[i] = segments[i] == -1;
         }
 
@@ -185,7 +181,7 @@ public class MarchingSquares_float {
         final float valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
         if (valueB - valueA != 0) {
-            interpolVal = (isoVal - valueB) / (valueA - valueB);
+                        interpolVal = ((double) (isoVal - valueB)) / (valueA - valueB);
         } else {
             interpolVal = 0.5;
         }
@@ -214,19 +210,17 @@ public class MarchingSquares_float {
          {0, 1, -1, -1, -1},
          {3, 1, -1, -1, -1},
          {1, 2, -1, -1, -1},
-         {3, 2, 1, 0, -1},  // 5
+         {3, 2, 1, 0, -1},
          {0, 2, -1, -1, -1},
          {3, 2, -1, -1, -1},
          {2, 3, -1, -1, -1},
          {2, 0, -1, -1, -1},
-         {0, 3, 2, 1, -1},  // 10
+         {0, 3, 2, 1, -1},
          {2, 1, -1, -1, -1},
          {1, 3, -1, -1, -1},
          {1, 0, -1, -1, -1},
          {0, 3, -1, -1, -1},
          {-1, -1, -1, -1, -1},
-         {3, 0, 1, 2, -1},  // this is 10 with a reverse winding. Used when swapping saddle point on 5
-         {2, 3, 0, 1, -1},  // this is 5 with a reverse winding.  Used when swapping the saddle on 10
-    };
+         {3, 0, 1, 2, -1},           {2, 3, 0, 1, -1},      };
 
 }
