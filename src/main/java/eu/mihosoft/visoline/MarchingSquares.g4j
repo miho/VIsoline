@@ -73,33 +73,33 @@ public class MarchingSquares<<T>> {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
+                T val0 = forceField.get(x, y);
+                T val1 = forceField.get(x + 1, y);
+                T val2 = forceField.get(x + 1, y + 1);
+                T val3 = forceField.get(x, y + 1);
+
 
                 // ensure that we add a border of zeros around the force field
                 // to prevent open paths
                 if (x < 1) {
-                    forceField.set((T)0, x, y);
-                    forceField.set((T)0, x, y + 1);
+                    val0 = (T) 0;
+                    val3 = (T) 0;
                 }
 
                 if (y < 1) {
-                    forceField.set((T)0, x, y);
-                    forceField.set((T)0, x + 1, y);
+                    val0 = (T) 0;
+                    val1 = (T) 0;
                 }
 
                 if (x == w - 1) {
-                    forceField.set((T)0, x + 1, y);
-                    forceField.set((T)0, x + 1, y + 1);
+                    val1 = (T) 0;
+                    val2 = (T) 0;
                 }
 
                 if (y == h - 1) {
-                    forceField.set((T)0, x, y + 1);
-                    forceField.set((T)0, x + 1, y + 1);
+                    val3 = (T) 0;
+                    val2 = (T) 0;
                 }
-
-                final T val0 = forceField.get(x, y);
-                final T val1 = forceField.get(x + 1, y);
-                final T val2 = forceField.get(x + 1, y + 1);
-                final T val3 = forceField.get(x, y + 1);
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -114,17 +114,18 @@ public class MarchingSquares<<T>> {
                 if (val3 < isoVal) {
                     caseIndex |= 8;
                 }
+
                 // This is the saddle point case.  We should look at the average
                 // to determine which to use.
                 if (caseIndex == 5) {
                     // do average as a double to avoid rounding errors
-                    double avg = (((double) val0) + val1 + val2 + val3) / 4;
+                    double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 16;
                     }
                 } else if (caseIndex == 10) {
                     // do average as a double to avoid rounding errors
-                    double avg = (((double) val0) + val1 + val2 + val3) / 4f;
+                    double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 17;
                     }
