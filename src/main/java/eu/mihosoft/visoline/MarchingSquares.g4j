@@ -230,7 +230,7 @@ public class MarchingSquares<<T>> {
         final double interpolVal;
         if (valueB - valueA != 0) {
             // Cast to double to avoid integer division.
-            interpolVal = ((double) (isoVal - valueB)) / (valueA - valueB);
+            interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
         } else {
             interpolVal = 0.5;
         }
