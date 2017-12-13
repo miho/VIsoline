@@ -7,6 +7,7 @@ public class MarchingSquares_byte {
     boolean[] marked;
     private final int width;
     private final int height;
+    private final boolean boundryLow;
 
     private static MarchingSquares_double dInst;
     private static MarchingSquares_float fInst;
@@ -14,8 +15,13 @@ public class MarchingSquares_byte {
     private static MarchingSquares_byte bInst;
 
     public MarchingSquares_byte(Data_byte forceField) {
+        this(forceField, true);
+    }
+
+    public MarchingSquares_byte(Data_byte forceField, boolean boundryLow) {
 
         this.forceField = forceField;
+        this.boundryLow = boundryLow;
 
         height = forceField.getHeight() * 2;
         width = forceField.getWidth() * 2;
@@ -36,31 +42,11 @@ public class MarchingSquares_byte {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-                byte val0 = forceField.get(x, y);
-                byte val1 = forceField.get(x + 1, y);
-                byte val2 = forceField.get(x + 1, y + 1);
-                byte val3 = forceField.get(x, y + 1);
+                final byte val0 = forceField.get(x, y);
+                final byte val1 = forceField.get(x + 1, y);
+                final byte val2 = forceField.get(x + 1, y + 1);
+                final byte val3 = forceField.get(x, y + 1);
 
-
-                                                if (x < 1) {
-                    val0 = (byte) 0;
-                    val3 = (byte) 0;
-                }
-
-                if (y < 1) {
-                    val0 = (byte) 0;
-                    val1 = (byte) 0;
-                }
-
-                if (x == w - 1) {
-                    val1 = (byte) 0;
-                    val2 = (byte) 0;
-                }
-
-                if (y == h - 1) {
-                    val3 = (byte) 0;
-                    val2 = (byte) 0;
-                }
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -76,7 +62,47 @@ public class MarchingSquares_byte {
                     caseIndex |= 8;
                 }
 
-                                                if (caseIndex == 5) {
+                                                if (x < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
+                if (y < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 2;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 2;
+                    }
+                }
+
+                if (x == w - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 2;
+                        caseIndex |= 4;
+                    } else {
+                        caseIndex &= 15 - 2;
+                        caseIndex &= 15 - 4;
+                    }
+                }
+
+                if (y == h - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 4;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 4;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
+                                                                if (caseIndex == 5) {
                                         double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 16;

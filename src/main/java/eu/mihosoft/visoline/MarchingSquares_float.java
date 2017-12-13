@@ -21,12 +21,12 @@ public class MarchingSquares_float {
     public MarchingSquares_float(Data_float forceField, boolean boundryLow) {
 
         this.forceField = forceField;
+        this.boundryLow = boundryLow;
 
         height = forceField.getHeight() * 2;
         width = forceField.getWidth() * 2;
         vertices = new Vector2d[width * height];
         marked = new boolean[vertices.length];
-        this.boundryLow = boundryLow;
     }
 
     public Path_float computePaths(float isoVal) {
@@ -42,10 +42,10 @@ public class MarchingSquares_float {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-                float val0 = forceField.get(x, y);
-                float val1 = forceField.get(x + 1, y);
-                float val2 = forceField.get(x + 1, y + 1);
-                float val3 = forceField.get(x, y + 1);
+                final float val0 = forceField.get(x, y);
+                final float val1 = forceField.get(x + 1, y);
+                final float val2 = forceField.get(x + 1, y + 1);
+                final float val3 = forceField.get(x, y + 1);
 
 
                 int caseIndex = 0;
@@ -62,8 +62,7 @@ public class MarchingSquares_float {
                     caseIndex |= 8;
                 }
 
-                // Handle boundries being high or low
-                if (x < 1) {
+                                                if (x < 1) {
                     if (boundryLow) {
                         caseIndex |= 1;
                         caseIndex |= 8;
@@ -103,9 +102,8 @@ public class MarchingSquares_float {
                     }
                 }
 
-
-                if (caseIndex == 5) {
-                    double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
+                                                                if (caseIndex == 5) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
                     if (avg >= isoVal) {
                         caseIndex = 16;
                     }
