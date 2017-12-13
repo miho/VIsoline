@@ -57,4 +57,18 @@ public class SaddlePointsTest {
         Path_float paths = marching.computePaths(1);
         Assert.assertEquals(2, paths.getNumberOfContours());
     }
+
+    @Test
+    public void testEdges() {
+        Data_float data = new Data_float(new float[] {
+                1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1,
+                1, 1, 0, 1, 1,
+                1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1,
+            }, 5, 5);
+        MarchingSquares_float marching = new MarchingSquares_float(data, false);
+        Path_float paths = marching.computePaths(.5f);
+        Assert.assertEquals(1, paths.getNumberOfContours());
+    }
 }

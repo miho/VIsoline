@@ -44,6 +44,7 @@ public class MarchingSquares<<T>> {
     boolean[] marked;
     private final int width;
     private final int height;
+    private final boolean boundryLow;
 
     private static MarchingSquares<<double>> dInst;
     private static MarchingSquares<<float>> fInst;
@@ -51,8 +52,13 @@ public class MarchingSquares<<T>> {
     private static MarchingSquares<<byte>> bInst;
 
     public MarchingSquares<<T>>(Data<<T>> forceField) {
+        this(forceField, true);
+    }
+
+    public MarchingSquares<<T>>(Data<<T>> forceField, boolean boundryLow) {
 
         this.forceField = forceField;
+        this.boundryLow = boundryLow;
 
         height = forceField.getHeight() * 2;
         width = forceField.getWidth() * 2;
@@ -73,33 +79,11 @@ public class MarchingSquares<<T>> {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-                T val0 = forceField.get(x, y);
-                T val1 = forceField.get(x + 1, y);
-                T val2 = forceField.get(x + 1, y + 1);
-                T val3 = forceField.get(x, y + 1);
+                final T val0 = forceField.get(x, y);
+                final T val1 = forceField.get(x + 1, y);
+                final T val2 = forceField.get(x + 1, y + 1);
+                final T val3 = forceField.get(x, y + 1);
 
-
-                // ensure that we add a border of zeros around the force field
-                // to prevent open paths
-                if (x < 1) {
-                    val0 = (T) 0;
-                    val3 = (T) 0;
-                }
-
-                if (y < 1) {
-                    val0 = (T) 0;
-                    val1 = (T) 0;
-                }
-
-                if (x == w - 1) {
-                    val1 = (T) 0;
-                    val2 = (T) 0;
-                }
-
-                if (y == h - 1) {
-                    val3 = (T) 0;
-                    val2 = (T) 0;
-                }
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -115,8 +99,51 @@ public class MarchingSquares<<T>> {
                     caseIndex |= 8;
                 }
 
+                // Ensure that we add a border of high or low values around the force field
+                // to prevent open paths
+                if (x < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
+                if (y < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 2;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 2;
+                    }
+                }
+
+                if (x == w - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 2;
+                        caseIndex |= 4;
+                    } else {
+                        caseIndex &= 15 - 2;
+                        caseIndex &= 15 - 4;
+                    }
+                }
+
+                if (y == h - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 4;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 4;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
                 // This is the saddle point case.  We should look at the average
                 // to determine which to use.
+                // NOTE: we are never in this case if we are at the boundry of the field.
                 if (caseIndex == 5) {
                     // do average as a double to avoid rounding errors
                     double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
