@@ -149,14 +149,15 @@ public class MarchingSquares_float {
 
         int currentLineFrom = -1;
         int currentLineTo = -1;
-        while (!allMarked(marked)) {
+        int lastUnmarkedIndex = 0;
+        while ((lastUnmarkedIndex = nextIndex(marked, lastUnmarkedIndex)) != -1) {
             if (currentLineTo != -1 && !marked[currentLineFrom]) {
                 result.lineTo(vertices[currentLineFrom]);
                 marked[currentLineFrom] = true;
                 currentLineFrom = currentLineTo;
                 currentLineTo = segments[currentLineFrom];
             } else {
-                currentLineFrom = nextIndex(marked);
+                currentLineFrom = lastUnmarkedIndex;
                 currentLineTo = segments[currentLineFrom];
                 result.breakContour();
             }
@@ -165,17 +166,8 @@ public class MarchingSquares_float {
         return result;
     }
 
-    private boolean allMarked(boolean[] marked) {
-        for (boolean b : marked) {
-            if (b == false) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private int nextIndex(boolean[] marked) {
-        for (int i = 0; i < marked.length; i++) {
+    private int nextIndex(boolean[] marked, int lastUnmarkedIndex) {
+        for (int i = lastUnmarkedIndex; i < marked.length; i++) {
             if (!marked[i]) {
                 return i;
             }
@@ -206,10 +198,10 @@ public class MarchingSquares_float {
         final float valueA = forceField.get(p1X,p1Y);
         final float valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
-        if (valueB - valueA != 0) {
-                        interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
+        if (valueA < isoVal == valueB < isoVal) {
+                                    interpolVal = 0.5;
         } else {
-            interpolVal = 0.5;
+                        interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
         }
         result.y = p2Y
                 - interpolVal * (p2Y - p1Y);
