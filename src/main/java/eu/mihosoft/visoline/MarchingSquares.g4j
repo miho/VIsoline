@@ -247,11 +247,13 @@ public class MarchingSquares<<T>> {
         final T valueA = forceField.get(p1X,p1Y);
         final T valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
-        if (valueB - valueA != 0) {
+        if (valueA < isoVal == valueB < isoVal) {
+            // This is the case where both values are on the same side of an isoVal.
+            // This only happens on the boundary of the field, so we just set it to the halfway point.
+            interpolVal = 0.5;
+        } else {
             // Cast to double to avoid integer division.
             interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
-        } else {
-            interpolVal = 0.5;
         }
         result.y = p2Y
                 - interpolVal * (p2Y - p1Y);
