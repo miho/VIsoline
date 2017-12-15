@@ -3,6 +3,7 @@ import org.junit.Test;
 import eu.mihosoft.visoline.Data_float;
 import eu.mihosoft.visoline.MarchingSquares_float;
 import eu.mihosoft.visoline.Path_float;
+import eu.mihosoft.visoline.Vector2d;
 import junit.framework.Assert;
 
 public class SaddlePointsTest {
@@ -126,5 +127,21 @@ public class SaddlePointsTest {
         MarchingSquares_float marching = new MarchingSquares_float(data, false);
         Path_float paths = marching.computePaths(.9f);
         Assert.assertEquals(1, paths.getNumberOfContours());
+    }
+
+    @Test
+    public void testEdgeInterp() {
+        Data_float data = new Data_float(new float[] {
+                5, 5, 5,
+                5, 1, 5,
+                5, 5, 5,
+            }, 3, 3);
+        MarchingSquares_float marching = new MarchingSquares_float(data, false);
+        Path_float paths = marching.computePaths(10);
+        Assert.assertEquals(1, paths.getNumberOfContours());
+        for (Vector2d p : paths.getContour(0)) {
+            Assert.assertTrue(p.y >= 0 && p.y < 2);
+            Assert.assertTrue(p.x >= 0 && p.x < 2);
+        }
     }
 }
