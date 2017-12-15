@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 import eu.mihosoft.visoline.Data_float;
@@ -144,4 +148,53 @@ public class SaddlePointsTest {
             Assert.assertTrue(p.x >= 0 && p.x < 2);
         }
     }
+
+    @Test
+    public void testWinding() {
+        Data_float data = new Data_float(new float[] {
+                0, 0, 0,
+                0, 1, 0,
+                0, 0, 0,
+            }, 3, 3);
+        MarchingSquares_float marching = new MarchingSquares_float(data);
+        Path_float paths = marching.computePaths(.5f);
+        Assert.assertEquals(1, paths.getNumberOfContours());
+
+        // Lines always surround the high values using a standard CCW polygon winding
+        ArrayList<Vector2d> expectedEdge = new ArrayList<>(Arrays.asList(
+                new Vector2d(1.0, 0.5),
+                new Vector2d(1.5, 1.0)));
+        List<Vector2d> contour = new ArrayList<>(paths.getContour(0));
+        contour.addAll(paths.getContour(0));
+        for (int i = 0; i < 4; i++) {
+            if (contour.get(i).equals(expectedEdge.get(0))) {
+                Assert.assertEquals(expectedEdge.get(1), contour.get(i+1));
+            }
+        }
+    }
+
+    @Test
+    public void testWinding2() {
+        Data_float data = new Data_float(new float[] {
+                1, 1, 1,
+                1, 0, 1,
+                1, 1, 1,
+            }, 3, 3);
+        MarchingSquares_float marching = new MarchingSquares_float(data, false);
+        Path_float paths = marching.computePaths(.5f);
+        Assert.assertEquals(1, paths.getNumberOfContours());
+
+        // Lines always surround the high values using a standard CCW polygon winding
+        ArrayList<Vector2d> expectedEdge = new ArrayList<>(Arrays.asList(
+                new Vector2d(1.0, 0.5),
+                new Vector2d(0.5, 1.0)));
+        List<Vector2d> contour = new ArrayList<>(paths.getContour(0));
+        contour.addAll(paths.getContour(0));
+        for (int i = 0; i < 4; i++) {
+            if (contour.get(i).equals(expectedEdge.get(0))) {
+                Assert.assertEquals(expectedEdge.get(1), contour.get(i+1));
+            }
+        }
+    }
+
 }
