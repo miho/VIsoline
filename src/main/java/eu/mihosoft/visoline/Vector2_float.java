@@ -15,15 +15,13 @@ class Vector2_float {
     public static final Vector2_float X_ONE = new Vector2_float(1, 0);
     public static final Vector2_float Y_ONE = new Vector2_float(0, 1);
 
-        
-    public Vector2_float() {
+            public Vector2_float() {
 
         this.x = 0;
         this.y = 0;
     }
     
-    
-    public Vector2_float(float x, float y) {
+        public Vector2_float(float x, float y) {
 
         this.x = x;
         this.y = y;
@@ -35,57 +33,45 @@ class Vector2_float {
         return new Vector2_float(x, y);
     }
 
-    
-    public Vector2_float negated() {
+        public Vector2_float negated() {
         return new Vector2_float(-x, -y);
     }
 
-    
-    public Vector2_float plus(Vector2_float v) {
+        public Vector2_float plus(Vector2_float v) {
         return new Vector2_float(x + v.x, y + v.y);
     }
 
-    
-    public Vector2_float minus(Vector2_float v) {
+        public Vector2_float minus(Vector2_float v) {
         return new Vector2_float(x - v.x, y - v.y);
     }
 
-    
-    public Vector2_float times(float a) {
+        public Vector2_float times(float a) {
         return new Vector2_float(x * a, y * a);
     }
 
-    
-    public Vector2_float times(Vector2_float a) {
+        public Vector2_float times(Vector2_float a) {
         return new Vector2_float(x * a.x, y * a.y);
     }
 
-    
-    public Vector2_float dividedBy(float a) {
+        public Vector2_float dividedBy(float a) {
         return new Vector2_float(x / a, y / a);
     }
 
-    
-    public float dot(Vector2_float a) {
+        public float dot(Vector2_float a) {
         return this.x * a.x + this.y * a.y;
     }
 
-    
-    public Vector2_float lerp(Vector2_float a, float t) {
+        public Vector2_float lerp(Vector2_float a, float t) {
         return this.plus(a.minus(this).times(t));
     }
 
-    
-    public float magnitude() {
+        public float magnitude() {
         return (float)Math.sqrt(this.dot(this));
     }
 
-    
-    public Vector2_float normalized() {
+        public Vector2_float normalized() {
         return this.dividedBy(this.magnitude());
     }
-
-
 
     @Override
     public String toString() {
@@ -111,13 +97,11 @@ class Vector2_float {
         return true;
     }
 
-    
-    public static Vector2_float x(float x) {
+        public static Vector2_float x(float x) {
         return new Vector2_float(x, 0);
     }
 
-    
-    public static Vector2_float y(float y) {
+        public static Vector2_float y(float y) {
         return new Vector2_float(0, y);
     }
 

@@ -7,6 +7,7 @@ public class MarchingSquares_float {
     boolean[] marked;
     private final int width;
     private final int height;
+    private final boolean boundryLow;
 
     private static MarchingSquares_double dInst;
     private static MarchingSquares_float fInst;
@@ -14,8 +15,13 @@ public class MarchingSquares_float {
     private static MarchingSquares_byte bInst;
 
     public MarchingSquares_float(Data_float forceField) {
+        this(forceField, true);
+    }
+
+    public MarchingSquares_float(Data_float forceField, boolean boundryLow) {
 
         this.forceField = forceField;
+        this.boundryLow = boundryLow;
 
         height = forceField.getHeight() * 2;
         width = forceField.getWidth() * 2;
@@ -36,31 +42,11 @@ public class MarchingSquares_float {
 
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
-
-                                                if (x < 1) {
-                    forceField.set((float)0, x, y);
-                    forceField.set((float)0, x, y + 1);
-                }
-
-                if (y < 1) {
-                    forceField.set((float)0, x, y);
-                    forceField.set((float)0, x + 1, y);
-                }
-
-                if (x == w - 1) {
-                    forceField.set((float)0, x + 1, y);
-                    forceField.set((float)0, x + 1, y + 1);
-                }
-
-                if (y == h - 1) {
-                    forceField.set((float)0, x, y + 1);
-                    forceField.set((float)0, x + 1, y + 1);
-                }
-
                 final float val0 = forceField.get(x, y);
                 final float val1 = forceField.get(x + 1, y);
                 final float val2 = forceField.get(x + 1, y + 1);
                 final float val3 = forceField.get(x, y + 1);
+
 
                 int caseIndex = 0;
                 if (val0 < isoVal) {
@@ -74,6 +60,58 @@ public class MarchingSquares_float {
                 }
                 if (val3 < isoVal) {
                     caseIndex |= 8;
+                }
+
+                                                if (x < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
+                if (y < 1) {
+                    if (boundryLow) {
+                        caseIndex |= 1;
+                        caseIndex |= 2;
+                    } else {
+                        caseIndex &= 15 - 1;
+                        caseIndex &= 15 - 2;
+                    }
+                }
+
+                if (x == w - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 2;
+                        caseIndex |= 4;
+                    } else {
+                        caseIndex &= 15 - 2;
+                        caseIndex &= 15 - 4;
+                    }
+                }
+
+                if (y == h - 1) {
+                    if (boundryLow) {
+                        caseIndex |= 4;
+                        caseIndex |= 8;
+                    } else {
+                        caseIndex &= 15 - 4;
+                        caseIndex &= 15 - 8;
+                    }
+                }
+
+                                                                if (caseIndex == 5) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
+                    if (avg >= isoVal) {
+                        caseIndex = 16;
+                    }
+                } else if (caseIndex == 10) {
+                                        double avg = (((double) val0) + val1 + val2 + val3) / 4.0;
+                    if (avg >= isoVal) {
+                        caseIndex = 17;
+                    }
                 }
 
                 if (caseIndex != 0 || caseIndex != 15) {
@@ -104,23 +142,22 @@ public class MarchingSquares_float {
 
                         segments[indexFrom] = indexTo;
 
-                    } 
-                }
-            }         } 
-        for (int i = 0; i < marked.length; i++) {
+                    }                 }
+            }         }         for (int i = 0; i < marked.length; i++) {
             marked[i] = segments[i] == -1;
         }
 
         int currentLineFrom = -1;
         int currentLineTo = -1;
-        while (!allMarked(marked)) {
+        int lastUnmarkedIndex = 0;
+        while ((lastUnmarkedIndex = nextIndex(marked, lastUnmarkedIndex)) != -1) {
             if (currentLineTo != -1 && !marked[currentLineFrom]) {
                 result.lineTo(vertices[currentLineFrom]);
                 marked[currentLineFrom] = true;
                 currentLineFrom = currentLineTo;
                 currentLineTo = segments[currentLineFrom];
             } else {
-                currentLineFrom = nextIndex(marked);
+                currentLineFrom = lastUnmarkedIndex;
                 currentLineTo = segments[currentLineFrom];
                 result.breakContour();
             }
@@ -129,17 +166,8 @@ public class MarchingSquares_float {
         return result;
     }
 
-    private boolean allMarked(boolean[] marked) {
-        for (boolean b : marked) {
-            if (b == false) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private int nextIndex(boolean[] marked) {
-        for (int i = 0; i < marked.length; i++) {
+    private int nextIndex(boolean[] marked, int lastUnmarkedIndex) {
+        for (int i = lastUnmarkedIndex; i < marked.length; i++) {
             if (!marked[i]) {
                 return i;
             }
@@ -170,10 +198,10 @@ public class MarchingSquares_float {
         final float valueA = forceField.get(p1X,p1Y);
         final float valueB = forceField.get(p2X,p2Y);
         final double interpolVal;
-        if (valueB - valueA != 0) {
-            interpolVal = (isoVal - valueB) / (valueA - valueB);
+        if (valueA < isoVal == valueB < isoVal) {
+                                    interpolVal = 0.5;
         } else {
-            interpolVal = 0.5;
+                        interpolVal = (((double) isoVal) - valueB) / (((double) valueA) - valueB);
         }
         result.y = p2Y
                 - interpolVal * (p2Y - p1Y);
@@ -210,7 +238,7 @@ public class MarchingSquares_float {
          {1, 3, -1, -1, -1},
          {1, 0, -1, -1, -1},
          {0, 3, -1, -1, -1},
-         {-1, -1, -1, -1, -1}
-    };
+         {-1, -1, -1, -1, -1},
+         {3, 0, 1, 2, -1},           {2, 3, 0, 1, -1},      };
 
 }

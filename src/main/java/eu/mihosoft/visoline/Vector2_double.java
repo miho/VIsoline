@@ -15,15 +15,13 @@ class Vector2_double {
     public static final Vector2_double X_ONE = new Vector2_double(1, 0);
     public static final Vector2_double Y_ONE = new Vector2_double(0, 1);
 
-        
-    public Vector2_double() {
+            public Vector2_double() {
 
         this.x = 0;
         this.y = 0;
     }
     
-    
-    public Vector2_double(double x, double y) {
+        public Vector2_double(double x, double y) {
 
         this.x = x;
         this.y = y;
@@ -35,57 +33,45 @@ class Vector2_double {
         return new Vector2_double(x, y);
     }
 
-    
-    public Vector2_double negated() {
+        public Vector2_double negated() {
         return new Vector2_double(-x, -y);
     }
 
-    
-    public Vector2_double plus(Vector2_double v) {
+        public Vector2_double plus(Vector2_double v) {
         return new Vector2_double(x + v.x, y + v.y);
     }
 
-    
-    public Vector2_double minus(Vector2_double v) {
+        public Vector2_double minus(Vector2_double v) {
         return new Vector2_double(x - v.x, y - v.y);
     }
 
-    
-    public Vector2_double times(double a) {
+        public Vector2_double times(double a) {
         return new Vector2_double(x * a, y * a);
     }
 
-    
-    public Vector2_double times(Vector2_double a) {
+        public Vector2_double times(Vector2_double a) {
         return new Vector2_double(x * a.x, y * a.y);
     }
 
-    
-    public Vector2_double dividedBy(double a) {
+        public Vector2_double dividedBy(double a) {
         return new Vector2_double(x / a, y / a);
     }
 
-    
-    public double dot(Vector2_double a) {
+        public double dot(Vector2_double a) {
         return this.x * a.x + this.y * a.y;
     }
 
-    
-    public Vector2_double lerp(Vector2_double a, double t) {
+        public Vector2_double lerp(Vector2_double a, double t) {
         return this.plus(a.minus(this).times(t));
     }
 
-    
-    public double magnitude() {
+        public double magnitude() {
         return (double)Math.sqrt(this.dot(this));
     }
 
-    
-    public Vector2_double normalized() {
+        public Vector2_double normalized() {
         return this.dividedBy(this.magnitude());
     }
-
-
 
     @Override
     public String toString() {
@@ -111,13 +97,11 @@ class Vector2_double {
         return true;
     }
 
-    
-    public static Vector2_double x(double x) {
+        public static Vector2_double x(double x) {
         return new Vector2_double(x, 0);
     }
 
-    
-    public static Vector2_double y(double y) {
+        public static Vector2_double y(double y) {
         return new Vector2_double(0, y);
     }
 

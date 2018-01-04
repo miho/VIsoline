@@ -4,4 +4,8 @@ build/
 .idea/
 VIsoline.iml
 .gradle/
+.classpath
+.project
+.settings/
 
+/bin/

@@ -51,8 +51,7 @@ public class Path_double {
         }
     }
 
-    
-    public double getIsoValue() {
+        public double getIsoValue() {
         return isoValue;
     }
 

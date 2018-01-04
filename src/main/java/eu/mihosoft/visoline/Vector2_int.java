@@ -15,15 +15,13 @@ class Vector2_int {
     public static final Vector2_int X_ONE = new Vector2_int(1, 0);
     public static final Vector2_int Y_ONE = new Vector2_int(0, 1);
 
-        
-    public Vector2_int() {
+            public Vector2_int() {
 
         this.x = 0;
         this.y = 0;
     }
     
-    
-    public Vector2_int(int x, int y) {
+        public Vector2_int(int x, int y) {
 
         this.x = x;
         this.y = y;
@@ -35,57 +33,45 @@ class Vector2_int {
         return new Vector2_int(x, y);
     }
 
-    
-    public Vector2_int negated() {
+        public Vector2_int negated() {
         return new Vector2_int(-x, -y);
     }
 
-    
-    public Vector2_int plus(Vector2_int v) {
+        public Vector2_int plus(Vector2_int v) {
         return new Vector2_int(x + v.x, y + v.y);
     }
 
-    
-    public Vector2_int minus(Vector2_int v) {
+        public Vector2_int minus(Vector2_int v) {
         return new Vector2_int(x - v.x, y - v.y);
     }
 
-    
-    public Vector2_int times(int a) {
+        public Vector2_int times(int a) {
         return new Vector2_int(x * a, y * a);
     }
 
-    
-    public Vector2_int times(Vector2_int a) {
+        public Vector2_int times(Vector2_int a) {
         return new Vector2_int(x * a.x, y * a.y);
     }
 
-    
-    public Vector2_int dividedBy(int a) {
+        public Vector2_int dividedBy(int a) {
         return new Vector2_int(x / a, y / a);
     }
 
-    
-    public int dot(Vector2_int a) {
+        public int dot(Vector2_int a) {
         return this.x * a.x + this.y * a.y;
     }
 
-    
-    public Vector2_int lerp(Vector2_int a, int t) {
+        public Vector2_int lerp(Vector2_int a, int t) {
         return this.plus(a.minus(this).times(t));
     }
 
-    
-    public int magnitude() {
+        public int magnitude() {
         return (int)Math.sqrt(this.dot(this));
     }
 
-    
-    public Vector2_int normalized() {
+        public Vector2_int normalized() {
         return this.dividedBy(this.magnitude());
     }
-
-
 
     @Override
     public String toString() {
@@ -111,13 +97,11 @@ class Vector2_int {
         return true;
     }
 
-    
-    public static Vector2_int x(int x) {
+        public static Vector2_int x(int x) {
         return new Vector2_int(x, 0);
     }
 
-    
-    public static Vector2_int y(int y) {
+        public static Vector2_int y(int y) {
         return new Vector2_int(0, y);
     }
 
